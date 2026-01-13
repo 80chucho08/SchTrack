@@ -1,12 +1,8 @@
+import SchedulePage from './pages/SchedulePage';
 
 function App() {
   
-
-  return (
-    <>
-      <h1>Hola Mundo!</h1>
-    </>
-  )
+  return <SchedulePage />
 }
 
 export default App
