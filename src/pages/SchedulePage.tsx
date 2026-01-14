@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import type { Materia } from '../types/schedule';
 import FormMateria from '../components/FormMateria';
+import PanelMaterias from '../components/PanelMaterias';
 
 const SchedulePage = () => {
     const [materias, setMaterias] = useState<Materia[]>(() => {
@@ -36,12 +37,7 @@ const SchedulePage = () => {
 
 
             <h2>Materias</h2>
-
-            <ul>
-                {materias.map((materia) => (
-                    <li key={materia.id}>{materia.nombre}</li>
-                ))}
-            </ul>
+                <PanelMaterias materias={materias} />
         </div>
     );  
 }
