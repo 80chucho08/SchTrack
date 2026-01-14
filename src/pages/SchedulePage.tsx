@@ -1,9 +1,16 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import type { Materia } from '../types/schedule';
 
 const SchedulePage = () => {
-    const [materias, setMaterias] = useState<Materia[]>([]);
+    const [materias, setMaterias] = useState<Materia[]>(() => {
+        const stored = localStorage.getItem("materias");
+        return stored ? JSON.parse(stored) : [];
+    });
     const [nombreMateria, setNombreMateria] = useState("");
+
+    useEffect(() => {
+        localStorage.setItem("materias", JSON.stringify(materias));
+    }, [materias]);
 
     const handleAgregarMateria = (e: React.FormEvent) => {
         e.preventDefault();
@@ -41,7 +48,7 @@ const SchedulePage = () => {
                 ))}
             </ul>
         </div>
-    );
+    );  
 }
 
 export default SchedulePage;
