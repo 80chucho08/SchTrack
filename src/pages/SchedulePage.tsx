@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import type { Materia } from '../types/schedule';
+import FormMateria from '../components/FormMateria';
 
 const SchedulePage = () => {
     const [materias, setMaterias] = useState<Materia[]>(() => {
@@ -12,9 +13,7 @@ const SchedulePage = () => {
         localStorage.setItem("materias", JSON.stringify(materias));
     }, [materias]);
 
-    const handleAgregarMateria = (e: React.FormEvent) => {
-        e.preventDefault();
-
+    const handleAgregarMateria = () => {
         if (nombreMateria.trim() === "") return;
 
         const nuevaMateria: Materia = {
@@ -28,16 +27,12 @@ const SchedulePage = () => {
     return (
         <div>
             <h1>Mi horario</h1>
-            <form onSubmit={handleAgregarMateria}>
-                <input 
-                    type="text" 
-                    placeholder='Nombre de la materia'
-                    value={nombreMateria}
-                    onChange={(e) => setNombreMateria(e.target.value)}
-                />
-
-                <button type='submit'>Agregar</button>
-            </form>
+            <h2>Agregar materia</h2>
+            <FormMateria 
+                nombreMateria={nombreMateria}
+                onNombreChange={setNombreMateria}
+                onSubmit={handleAgregarMateria}
+            />
 
 
             <h2>Materias</h2>
