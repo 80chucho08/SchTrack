@@ -1,3 +1,5 @@
+import CeldaHorario from "./CeldaHorario";
+
 const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
 
 const horas = Array.from({ length: 15 }, (_, i) => i+7); // 7 a 21
@@ -22,7 +24,11 @@ const HorarioGrid = () => {
                         {dias.map((dia) => {
                             const celdaId = `${dia}-${hora}`;
 
-                            return <td key={celdaId}>{celdaId}</td>
+                            return (
+                                <CeldaHorario key={celdaId} id={celdaId}>
+                                    {celdaId}
+                                </CeldaHorario>
+                            )
                         })}
                     </tr>
                 ))}

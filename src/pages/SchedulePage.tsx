@@ -49,10 +49,10 @@ const SchedulePage = () => {
             <h2>Materias</h2>
             <DndContext onDragEnd={handleDragEnd}>
                 <PanelMaterias materias={materias} />
-            </DndContext>
 
-            <h2>Horario</h2>
-            <HorarioGrid />
+                <h2>Horario</h2>
+                <HorarioGrid />
+            </DndContext>
 
         </div>
     );
