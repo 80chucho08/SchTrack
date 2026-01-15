@@ -3,6 +3,7 @@ import { useDroppable } from "@dnd-kit/core";
 interface Props {
     id: string,
     children?: React.ReactNode;
+    className?: string
 }
 
 const CeldaHorario = ({ id, children }: Props) => {
@@ -20,7 +21,7 @@ const CeldaHorario = ({ id, children }: Props) => {
     };
 
     return (
-        <td ref={setNodeRef} style={style}>
+        <td ref={setNodeRef} style={style} className="classname">
             {children}
         </td>
     );

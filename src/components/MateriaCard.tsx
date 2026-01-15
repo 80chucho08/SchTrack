@@ -3,6 +3,7 @@ import type { Materia } from "../types/schedule";
 
 interface Props {
   materia: Materia;
+  className?: string;
 }
 
 const MateriaCard = ({ materia }: Props) => {
@@ -19,7 +20,7 @@ const MateriaCard = ({ materia }: Props) => {
     fontWeight: 500,
     cursor: "grab",
     minWidth: "110px",
-    
+    height: "53px",
     boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
     touchAction: "none",
     transform: transform
@@ -35,6 +36,7 @@ const MateriaCard = ({ materia }: Props) => {
       {...listeners}
       {...attributes}
       style={style}
+      className="className"
     >
       {materia.nombre}
     </div>

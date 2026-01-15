@@ -13,37 +13,36 @@ interface Props {
 
 const HorarioGrid = ({ horario }: Props) => {
     return (
-        <table border={1} cellPadding={8}>
-            <thead>
-                <tr>
-                    <th>Hora</th>
-                    {dias.map((dia) => (
-                        <th key={dia}>{dia}</th>
-                    ))}
-                </tr>
-            </thead>
+        <div className="horario-grid">
+            {/* Encabezados */}
+            <div className="horario-header">Hora</div>
+            {dias.map((dia) => (
+                <div key={dia} className="horario-header">{dia}</div>
+            ))}
 
-            <tbody>
-                {horas.map((hora) => (
-                    <tr key={hora}>
-                        <td>{hora}:00</td>
+            {/* Filas */}
+            {horas.map((hora) => (
+                <>
+                    {/* Hora */}
+                    <div key={`hora-${hora}`} className="hora-label">{hora}:00</div>
 
-                        {dias.map((dia) => {
-                            const celdaId = `${dia}-${hora}`;
-
-                            return (
-                                <CeldaHorario key={celdaId} id={celdaId}>
-                                    {horario[celdaId] && (
-                                        <MateriaCard materia={horario[celdaId]} />
-                                    )}
-
-                                </CeldaHorario>
-                            )
-                        })}
-                    </tr>
-                ))}
-            </tbody>
-        </table>
+                    {/* Celdas por día */}
+                    {dias.map((dia) => {
+                        const celdaId = `${dia}-${hora}`;
+                        return (
+                            <CeldaHorario key={celdaId} id={celdaId} className="horario-cell">
+                                {horario[celdaId] && (
+                                    <MateriaCard
+                                        materia={horario[celdaId]}
+                                        className="materia-en-celda"
+                                    />
+                                )}
+                            </CeldaHorario>
+                        )
+                    })}
+                </>
+            ))}
+        </div>
     );
 };
 
