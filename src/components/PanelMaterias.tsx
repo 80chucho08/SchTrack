@@ -16,7 +16,7 @@ const PanelMaterias = ({ materias }: Props) => {
     }
 
     return (
-        <div ref={setNodeRef}>
+        <div ref={setNodeRef} className="panel-materias">
             {materias.map((materia) => (
                 <MateriaCard key={materia.id} materia={materia} />
             ))}

@@ -13,14 +13,20 @@ const MateriaCard = ({ materia }: Props) => {
   const style = {
     backgroundColor: materia.color,
     color: "#fff",
-    padding: "8px 12px",
-    borderRadius: "8px",
+    padding: "10px 14px",
+    borderRadius: "10px",
+    fontSize: "14px",
+    fontWeight: 500,
     cursor: "grab",
+    minWidth: "110px",
+    
+    boxShadow: "0 4px 8px rgba(0,0,0,0.15)",
     touchAction: "none",
     transform: transform
       ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
       : undefined,
   };
+
 
 
   return (
