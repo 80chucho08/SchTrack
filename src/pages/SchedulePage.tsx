@@ -5,8 +5,11 @@ import PanelMaterias from '../components/PanelMaterias';
 import { DndContext } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
 import HorarioGrid from "../components/HorarioGrid";
+import { useRef } from "react";
+import html2canvas from 'html2canvas';
 
 const SchedulePage = () => {
+    const horarioRef = useRef<HTMLDivElement>(null);
     const [materias, setMaterias] = useState<Materia[]>(() => {
         const stored = localStorage.getItem("materias");
         return stored ? JSON.parse(stored) : [];
@@ -111,6 +114,23 @@ const SchedulePage = () => {
         setMaterias(prev => prev.filter(m => materiasEnHorarioIds.has(m.id)));
     };
 
+    const handleExportHorario = async () => {
+        if (!horarioRef.current) return;
+
+        const canvas = await html2canvas(horarioRef.current, {
+            scale: 2, // para mejor resolución
+        });
+
+        const imgData = canvas.toDataURL("image/png");
+
+        // Crear link de descarga
+        const link = document.createElement("a");
+        link.href = imgData;
+        link.download = "horario.png";
+        link.click();
+    };
+
+
 
 
     return (
@@ -130,31 +150,42 @@ const SchedulePage = () => {
                 />
             </section>
 
-            <main className='main'>
-                <div className='grid-section'>
-                    <h2>Materias</h2>
-                    <DndContext onDragEnd={handleDragEnd}>
-                        <PanelMaterias
-                            materias={materias.filter(
-                                (materia) => !materiasEnHorario.has(materia.id)
-                            )}
-                        />
+            <main className="main">
+                <DndContext onDragEnd={handleDragEnd}>
+                    {/* Panel y botones arriba */}
+                    <div className="top-section">
+                        <div className="panel-section">
+                            <h2>Panel Materias</h2>
+                            <PanelMaterias
+                                materias={materias.filter(
+                                    (materia) => !materiasEnHorario.has(materia.id)
+                                )}
+                            />
+                        </div>
 
+                        <aside className="actions">
+                            <button onClick={handleLimpiarPanel} className="panel-button">
+                                Limpiar panel
+                            </button>
+                            <button onClick={handleLimpiarHorario}>
+                                Limpiar horario
+                            </button>
+                            <button onClick={handleExportHorario} className="print-button">
+                                Imprimir Horario
+                            </button>
+                        </aside>
+                    </div>
+
+                    {/* Horario abajo */}
+                    <div className="grid-section" ref={horarioRef}>
                         <h2>Horario</h2>
                         <HorarioGrid horario={horario} />
-
-                    </DndContext>
-                </div>
-
-                <aside className='actions'>
-                    <button onClick={handleLimpiarPanel} className='panel-button'>
-                        Limpiar panel
-                    </button>
-                    <button onClick={handleLimpiarHorario}>
-                        Limpiar horario
-                    </button>
-                </aside>
+                    </div>
+                </DndContext>
             </main>
+
+
+
 
         </div>
     );
