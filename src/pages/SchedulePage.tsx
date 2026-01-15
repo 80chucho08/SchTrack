@@ -11,12 +11,19 @@ const SchedulePage = () => {
         const stored = localStorage.getItem("materias");
         return stored ? JSON.parse(stored) : [];
     });
-    const [horario, setHorario] =useState<HorarioState>({});
+    const [horario, setHorario] = useState<HorarioState>(() => {
+        const stored = localStorage.getItem("horario");
+        return stored ? JSON.parse(stored) : {};
+    });
     const [nombreMateria, setNombreMateria] = useState("");
 
     useEffect(() => {
         localStorage.setItem("materias", JSON.stringify(materias));
     }, [materias]);
+
+    useEffect(() => {
+        localStorage.setItem("horario", JSON.stringify(horario));
+    }, [horario]);
 
     const handleAgregarMateria = () => {
         if (nombreMateria.trim() === "") return;
