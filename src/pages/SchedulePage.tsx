@@ -4,6 +4,7 @@ import FormMateria from '../components/FormMateria';
 import PanelMaterias from '../components/PanelMaterias';
 import { DndContext } from "@dnd-kit/core";
 import type { DragEndEvent } from "@dnd-kit/core";
+import HorarioGrid from "../components/HorarioGrid";
 
 const SchedulePage = () => {
     const [materias, setMaterias] = useState<Materia[]>(() => {
@@ -38,7 +39,7 @@ const SchedulePage = () => {
         <div>
             <h1>Mi horario</h1>
             <h2>Agregar materia</h2>
-            <FormMateria 
+            <FormMateria
                 nombreMateria={nombreMateria}
                 onNombreChange={setNombreMateria}
                 onSubmit={handleAgregarMateria}
@@ -46,11 +47,15 @@ const SchedulePage = () => {
 
 
             <h2>Materias</h2>
-                <DndContext onDragEnd={handleDragEnd}>
-                    <PanelMaterias materias={materias} />
-                </DndContext>
+            <DndContext onDragEnd={handleDragEnd}>
+                <PanelMaterias materias={materias} />
+            </DndContext>
+
+            <h2>Horario</h2>
+            <HorarioGrid />
+
         </div>
-    );  
+    );
 }
 
 export default SchedulePage;
