@@ -21,9 +21,9 @@ const CeldaHorario = ({ id, children }: Props) => {
     };
 
     return (
-        <td ref={setNodeRef} style={style} className="classname">
+        <div ref={setNodeRef} style={style} className="classname">
             {children}
-        </td>
+        </div>
     );
 };
 

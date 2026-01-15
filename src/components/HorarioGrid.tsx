@@ -1,6 +1,7 @@
 import CeldaHorario from "./CeldaHorario";
 import type { HorarioState } from "../types/schedule";
 import MateriaCard from "./MateriaCard";
+import { Fragment } from "react/jsx-runtime";
 
 
 const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
@@ -22,7 +23,7 @@ const HorarioGrid = ({ horario }: Props) => {
 
             {/* Filas */}
             {horas.map((hora) => (
-                <>
+                <Fragment key={hora}>
                     {/* Hora */}
                     <div key={`hora-${hora}`} className="hora-label">{hora}:00</div>
 
@@ -38,9 +39,9 @@ const HorarioGrid = ({ horario }: Props) => {
                                     />
                                 )}
                             </CeldaHorario>
-                        )
+                        );
                     })}
-                </>
+                </Fragment>
             ))}
         </div>
     );
