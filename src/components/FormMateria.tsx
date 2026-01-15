@@ -21,8 +21,12 @@ const FormMateria = ({
     };
 
     return (
-        <form onSubmit={handleSubmit}>
+        <form 
+            onSubmit={handleSubmit}
+            className='form-materia'
+        >
             <input
+            className='form-input'
                 type="text"
                 placeholder='Nombre de la materia'
                 value={nombreMateria}
@@ -31,11 +35,12 @@ const FormMateria = ({
                 }
             />
             <input
+            className='form-color'
                 type="color"
                 value={colorMateria}
                 onChange={(e) => onColorChange(e.target.value)}
             />
-            <button type='submit'>Agregar</button>
+            <button className="form-button" type='submit' disabled={!nombreMateria.trim()}>Agregar</button>
         </form>
     );
 };
