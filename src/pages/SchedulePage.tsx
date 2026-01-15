@@ -50,30 +50,48 @@ const SchedulePage = () => {
         if (!over) return;
 
         const materiaId = active.id as string;
-        const targetCellId = over.id as string;
+        const targetId = over.id as string;
 
         const materia = materias.find((m) => m.id === materiaId);
         if (!materia) return;
 
+        // soltar en el panel
+        if (targetId === "panel-materias") {
+            setHorario((prev) => {
+                const newHorario = { ...prev };
+
+                const previousCell = Object.entries(prev).find(
+                    ([_, m]) => m.id === materiaId
+                )?.[0];
+
+                if (previousCell) {
+                    delete newHorario[previousCell];
+                }
+
+                return newHorario;
+            });
+
+            return; // IMPORTANTE
+        }
+
+        //  soltar en una celda
         setHorario((prev) => {
             const newHorario = { ...prev };
 
-            // buscar si ya estaba colocada
             const previousCell = Object.entries(prev).find(
                 ([_, m]) => m.id === materiaId
             )?.[0];
 
-            // si estaba en otra celda, eliminarla
             if (previousCell) {
                 delete newHorario[previousCell];
             }
 
-            // colocar en la nueva celda
-            newHorario[targetCellId] = materia;
+            newHorario[targetId] = materia;
 
             return newHorario;
         });
     };
+
 
     return (
         <div>
