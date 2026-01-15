@@ -105,12 +105,18 @@ const SchedulePage = () => {
         Object.values(horario).map((m) => m.id)
     );
 
+    const handleLimpiarPanel = () => {
+        // Solo dejo las materias que ya están en el horario
+        const materiasEnHorarioIds = new Set(Object.values(horario).map(m => m.id));
+        setMaterias(prev => prev.filter(m => materiasEnHorarioIds.has(m.id)));
+    };
+
 
 
     return (
         <div>
-            <header>
-                <h1>Mi horario</h1>
+            <header className='header'>
+                <h1 className='header'>Mi horario</h1>
             </header>
 
             <section className='form-section'>
@@ -141,10 +147,12 @@ const SchedulePage = () => {
                 </div>
 
                 <aside className='actions'>
+                    <button onClick={handleLimpiarPanel} className='panel-button'>
+                        Limpiar panel
+                    </button>
                     <button onClick={handleLimpiarHorario}>
                         Limpiar horario
                     </button>
-
                 </aside>
             </main>
 

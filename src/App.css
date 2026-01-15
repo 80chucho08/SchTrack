@@ -166,7 +166,7 @@ body {
 
 
 .horario-cell {
-  height: 42px; /* 👈 CLAVE para que quepa */
+  height: 42px; 
   border: 1px solid #e5e7eb;
   padding: 4px;
   font-size: 12px;
@@ -207,4 +207,15 @@ body {
   align-items: center;
   justify-content: center;
   text-align: center;
+}
+
+
+
+.actions button.panel-button {
+    background-color: #3b82f6;
+    margin-bottom: 12px;
+}
+
+.actions button.panel-button:hover {
+    background-color: #2563eb;
 }
