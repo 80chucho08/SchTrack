@@ -24,6 +24,9 @@ const SchedulePage = () => {
     });
     const [nombreMateria, setNombreMateria] = useState("");
 
+    const [colorMateria, setColorMateria] = useState("#4f46e5"); // azul default
+
+
     useEffect(() => {
         localStorage.setItem("materias", JSON.stringify(materias));
     }, [materias]);
@@ -38,6 +41,7 @@ const SchedulePage = () => {
         const nuevaMateria: Materia = {
             id: crypto.randomUUID(),
             nombre: nombreMateria.trim(),
+            color: colorMateria,
         };
 
         setMaterias((prev) => [...prev, nuevaMateria]);
@@ -110,6 +114,8 @@ const SchedulePage = () => {
             <FormMateria
                 nombreMateria={nombreMateria}
                 onNombreChange={setNombreMateria}
+                colorMateria={colorMateria}
+                onColorChange={setColorMateria}
                 onSubmit={handleAgregarMateria}
             />
 
