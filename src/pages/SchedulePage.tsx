@@ -44,6 +44,11 @@ const SchedulePage = () => {
         setNombreMateria("");
     }
 
+    const handleLimpiarHorario = () => {
+        setHorario({});
+    };
+
+
     const handleDragEnd = (event: DragEndEvent) => {
         const { active, over } = event;
 
@@ -119,7 +124,11 @@ const SchedulePage = () => {
 
 
                 <h2>Horario</h2>
+                <button onClick={handleLimpiarHorario}>
+                    Limpiar horario
+                </button>
                 <HorarioGrid horario={horario} />
+
             </DndContext>
 
         </div>
