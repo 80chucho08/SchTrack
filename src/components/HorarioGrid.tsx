@@ -1,10 +1,16 @@
 import CeldaHorario from "./CeldaHorario";
+import type { HorarioState } from "../types/schedule";
+
 
 const dias = ["LUNES", "MARTES", "MIERCOLES", "JUEVES", "VIERNES"];
 
 const horas = Array.from({ length: 15 }, (_, i) => i+7); // 7 a 21
 
-const HorarioGrid = () => {
+interface Props {
+    horario: HorarioState;
+}
+
+const HorarioGrid = ({horario}: Props) => {
     return (
         <table border={1} cellPadding={8}>
             <thead>
@@ -26,7 +32,7 @@ const HorarioGrid = () => {
 
                             return (
                                 <CeldaHorario key={celdaId} id={celdaId}>
-                                    {celdaId}
+                                    {horario[celdaId]?.nombre || ""}
                                 </CeldaHorario>
                             )
                         })}
