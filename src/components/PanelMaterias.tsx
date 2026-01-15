@@ -1,4 +1,5 @@
 import type { Materia } from "../types/schedule";
+import MateriaCard from "./MateriaCard";
 
 interface Props {
     materias: Materia[];
@@ -10,11 +11,11 @@ const PanelMaterias = ({ materias }: Props) => {
     }
 
     return (
-        <ul>
+        <div>
             {materias.map((materia) => (
-                <li key={materia.id}>{materia.nombre}</li>
+                <MateriaCard key={materia.id} materia={materia} />
             ))}
-        </ul>
+        </div>
     );
 };
 
