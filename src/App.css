@@ -1,0 +1,84 @@
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, sans-serif;
+  background-color: #f5f7fb;
+}
+
+.app {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+
+/* header */ 
+.header {
+  background-color: #111827;
+  color: white;
+  padding: 16px 24px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: 1.5rem;
+}
+
+
+/* form */ 
+.form-section {
+  background-color: white;
+  padding: 16px 24px;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.form-section h2 {
+  margin-top: 0;
+}
+
+
+
+/* grid */
+.main {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 16px;
+  padding: 16px;
+  flex: 1;
+}
+
+
+/* horario */
+.grid-section {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  overflow: auto;
+}
+
+
+
+/* boton limpiar */ 
+.actions {
+  background-color: white;
+  padding: 16px;
+  border-radius: 8px;
+  height: fit-content;
+}
+
+.actions button {
+  width: 100%;
+  padding: 10px;
+  background-color: #ef4444;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.actions button:hover {
+  background-color: #dc2626;
+}

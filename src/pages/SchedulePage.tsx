@@ -109,33 +109,44 @@ const SchedulePage = () => {
 
     return (
         <div>
-            <h1>Mi horario</h1>
-            <h2>Agregar materia</h2>
-            <FormMateria
-                nombreMateria={nombreMateria}
-                onNombreChange={setNombreMateria}
-                colorMateria={colorMateria}
-                onColorChange={setColorMateria}
-                onSubmit={handleAgregarMateria}
-            />
+            <header>
+                <h1>Mi horario</h1>
+            </header>
 
-
-            <h2>Materias</h2>
-            <DndContext onDragEnd={handleDragEnd}>
-                <PanelMaterias
-                    materias={materias.filter(
-                        (materia) => !materiasEnHorario.has(materia.id)
-                    )}
+            <section className='form-section'>
+                <h2>Agregar materia</h2>
+                <FormMateria
+                    nombreMateria={nombreMateria}
+                    onNombreChange={setNombreMateria}
+                    colorMateria={colorMateria}
+                    onColorChange={setColorMateria}
+                    onSubmit={handleAgregarMateria}
                 />
+            </section>
 
+            <main className='main'>
+                <div className='grid-section'>
+                    <h2>Materias</h2>
+                    <DndContext onDragEnd={handleDragEnd}>
+                        <PanelMaterias
+                            materias={materias.filter(
+                                (materia) => !materiasEnHorario.has(materia.id)
+                            )}
+                        />
 
-                <h2>Horario</h2>
-                <button onClick={handleLimpiarHorario}>
-                    Limpiar horario
-                </button>
-                <HorarioGrid horario={horario} />
+                        <h2>Horario</h2>
+                        <HorarioGrid horario={horario} />
 
-            </DndContext>
+                    </DndContext>
+                </div>
+
+                <aside className='actions'>
+                    <button onClick={handleLimpiarHorario}>
+                        Limpiar horario
+                    </button>
+
+                </aside>
+            </main>
 
         </div>
     );
