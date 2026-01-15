@@ -92,6 +92,11 @@ const SchedulePage = () => {
         });
     };
 
+    const materiasEnHorario = new Set(
+        Object.values(horario).map((m) => m.id)
+    );
+
+
 
     return (
         <div>
@@ -106,7 +111,12 @@ const SchedulePage = () => {
 
             <h2>Materias</h2>
             <DndContext onDragEnd={handleDragEnd}>
-                <PanelMaterias materias={materias} />
+                <PanelMaterias
+                    materias={materias.filter(
+                        (materia) => !materiasEnHorario.has(materia.id)
+                    )}
+                />
+
 
                 <h2>Horario</h2>
                 <HorarioGrid horario={horario} />
