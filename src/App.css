@@ -47,6 +47,7 @@ body {
     flex-direction: column;
     /* antes era grid con 2 columnas */
     gap: 16px;
+    margin: 0 auto;
     padding: 16px;
 }
 
@@ -256,4 +257,147 @@ body {
 .panel-section {
     display: 1;
     max-width: 1250px;
+}
+
+
+/* --- Header Moderno --- */
+.app-header {
+    background: linear-gradient(135deg, #2693ca 0%, #053da4 100%);
+    color: white;
+    padding: 12px 0;
+    box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+}
+
+.header-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.app-title {
+    font-size: 1.4rem;
+    color: #ffffff;
+    /* Color principal */
+    letter-spacing: -0.5px;
+}
+
+.app-subtitle {
+    font-size: 0.75rem;
+    color: #ffffff;
+    font-weight: 400;
+}
+
+.header-nav {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.nav-link {
+    text-decoration: none;
+    color: #374151;
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+.btn-download-mini {
+    background-color: #88c0ff;
+    color: white;
+    border: none;
+    padding: 6px 14px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.btn-download-mini:hover {
+    background-color: #4338ca;
+}
+
+/* --- Footer Moderno --- */
+.app-footer {
+    margin-top: 60px;
+    padding: 30px 0;
+    background-color: #111827;
+    /* Footer oscuro para contraste */
+    color: #f3f4f6;
+    border-top: 1px solid #374151;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footer-info p {
+    margin: 4px 0;
+    font-size: 0.85rem;
+}
+
+.footer-links {
+    display: flex;
+    gap: 24px;
+}
+
+.social-link {
+    color: #f3f4f6;
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.05);
+    transition: all 0.2s;
+}
+
+.social-link:hover {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+}
+
+.social-link .icon {
+    font-size: 1.1rem;
+}
+
+/* Media query para móviles */
+@media (max-width: 600px) {
+
+    .footer-content,
+    .header-content {
+        flex-direction: column;
+        gap: 16px;
+        text-align: center;
+    }
+}
+
+.svg-icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Espacio entre el icono y el texto */
+    margin-bottom: 2px;
+}
+
+/* Opcional: Icono dentro de un círculo/caja suave */
+.header-logo-svg {
+    background: #251fd2;
+    padding: 2px;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
 }
