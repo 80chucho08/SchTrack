@@ -9,7 +9,7 @@ Este proyecto fue desarrollado como práctica de frontend, enfocado en **UX, est
 
 ## 🚀 Demo en vivo
 
-🔗 https://80chucho08.github.io/schtrack/
+🔗 https://80chucho08.github.io/SchTrack/
 
 ---
 
