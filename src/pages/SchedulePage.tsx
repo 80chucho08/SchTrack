@@ -15,11 +15,11 @@ const SchedulePage = () => {
         return stored ? JSON.parse(stored) : [];
     });
 
-    const findMateriaCell = (materiaId: string) => {
-        return Object.entries(horario).find(
-            ([_, materia]) => materia.id === materiaId
-        )?.[0];
-    };
+    // const findMateriaCell = (materiaId: string) => {
+    //     return Object.entries(horario).find(
+    //         ([_, materia]) => materia.id === materiaId
+    //     )?.[0];
+    // };
 
     const [horario, setHorario] = useState<HorarioState>(() => {
         const stored = localStorage.getItem("horario");
@@ -198,7 +198,7 @@ const SchedulePage = () => {
                             <button onClick={handleLimpiarHorario}>
                                 Limpiar horario
                             </button>
-                            
+
                         </aside>
                     </div>
 
