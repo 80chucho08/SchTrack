@@ -1,73 +1,84 @@
-# React + TypeScript + Vite
+# 📅 SchTrack – Planificador de Horario Interactivo
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+SchTrack es una aplicación web interactiva para crear y organizar horarios académicos de forma visual e intuitiva.  
+Permite agregar materias, asignarlas a un horario mediante **drag & drop**, limpiar paneles y **exportar el horario como imagen**.
 
-Currently, two official plugins are available:
+Este proyecto fue desarrollado como práctica de frontend, enfocado en **UX, estado de la aplicación y manipulación visual**.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+---
 
-## React Compiler
+## 🚀 Demo en vivo
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+🔗 https://80chucho08.github.io/schtrack/
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🖼️ Vista previa
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Panel de materias y horario
+![Horario principal](./images/horario-principal.png)
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+### Exportación del horario
+![Horario exportado](./images/horario-exportado.png)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+> 📌 *Las imágenes muestran el funcionamiento real de la aplicación.*
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## ✨ Características principales
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+- ➕ Agregar materias con nombre y color personalizado
+- 🧲 Arrastrar y soltar materias al horario (Drag & Drop)
+- 🗂️ Panel de materias dinámico
+- 🧹 Limpiar panel o limpiar horario completo
+- 🖨️ Exportar el horario como imagen (PNG)
+- 💾 Persistencia con LocalStorage
+- 📱 Diseño responsive y limpio
+
+---
+
+## 🛠️ Tecnologías utilizadas
+
+- **React + TypeScript**
+- **Vite**
+- **@dnd-kit** – Drag & Drop
+- **html2canvas** – Exportación a imagen
+- **CSS puro** (Grid & Flexbox)
+- **GitHub Pages** – Deploy
+
+---
+
+## 🧠 Conceptos aplicados
+
+- Manejo de estado con `useState` y `useEffect`
+- Persistencia de datos en `localStorage`
+- Arquitectura por componentes
+- CSS Grid para layout de horarios
+- Separación de lógica y UI
+- Buenas prácticas de React (keys, props, tipado)
+
+---
+
+## 📂 Estructura del proyecto
+
+src/
+├── components/
+│ ├── HorarioGrid.tsx
+│ ├── CeldaHorario.tsx
+│ ├── PanelMaterias.tsx
+│ ├── MateriaCard.tsx
+│ └── FormMateria.tsx
+├── pages/
+│ └── SchedulePage.tsx
+├── types/
+│ └── schedule.ts
+├── App.tsx
+└── main.tsx
+
+
+
+👤 Autor
+
+Jesús Carbajal
+💻 Estudiante de Ingeniería en Sistemas
+📍 México
