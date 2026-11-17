@@ -73,7 +73,7 @@ const SchedulePage = () => {
                 const newHorario = { ...prev };
 
                 const previousCell = Object.entries(prev).find(
-                    ([_, m]) => m.id === materiaId
+                    ([, m]) => m.id === materiaId
                 )?.[0];
 
                 if (previousCell) {
@@ -91,7 +91,7 @@ const SchedulePage = () => {
             const newHorario = { ...prev };
 
             const previousCell = Object.entries(prev).find(
-                ([_, m]) => m.id === materiaId
+                ([, m]) => m.id === materiaId
             )?.[0];
 
             if (previousCell) {
