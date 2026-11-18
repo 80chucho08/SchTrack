@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import type { Materia, HorarioState } from '../types/schedule';
 import FormMateria from '../components/FormMateria';
 import PanelMaterias from '../components/PanelMaterias';
-import { DndContext } from "@dnd-kit/core";
-import type { DragEndEvent } from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
+import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import HorarioGrid from "../components/HorarioGrid";
 import { useRef } from "react";
 import html2canvas from 'html2canvas';
@@ -56,7 +56,14 @@ const SchedulePage = () => {
     };
 
 
+    const [materiaArrastrada, setMateriaArrastrada] = useState<Materia | null>(null);
+
+    const handleDragStart = (event: DragStartEvent) => {
+        setMateriaArrastrada(materias.find((m) => m.id === event.active.id) ?? null);
+    };
+
     const handleDragEnd = (event: DragEndEvent) => {
+        setMateriaArrastrada(null);
         const { active, over } = event;
 
         if (!over) return;
@@ -193,7 +200,11 @@ const SchedulePage = () => {
             </section>
 
             <main className="main">
-                <DndContext onDragEnd={handleDragEnd}>
+                <DndContext
+                    onDragStart={handleDragStart}
+                    onDragEnd={handleDragEnd}
+                    onDragCancel={() => setMateriaArrastrada(null)}
+                >
                     {/* Panel y botones arriba */}
                     <div className="top-section">
                         <div className="panel-section">
@@ -221,6 +232,17 @@ const SchedulePage = () => {
                         <h2>Horario</h2>
                         <HorarioGrid horario={horario} />
                     </div>
+
+                    <DragOverlay dropAnimation={null}>
+                        {materiaArrastrada && (
+                            <div
+                                className="materia-card materia-overlay"
+                                style={{ backgroundColor: materiaArrastrada.color }}
+                            >
+                                {materiaArrastrada.nombre}
+                            </div>
+                        )}
+                    </DragOverlay>
                 </DndContext>
             </main>
 

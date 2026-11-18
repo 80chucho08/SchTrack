@@ -11,13 +11,11 @@ const CeldaHorario = ({ id, children, className }: Props) => {
         id,
     });
 
-    // Resalta la celda mientras se arrastra una materia encima
-    const style: React.CSSProperties | undefined = isOver
-        ? { backgroundColor: "#e0f2fe" }
-        : undefined;
+    // .is-over resalta la celda mientras se arrastra una materia encima
+    const classes = [className, isOver && "is-over"].filter(Boolean).join(" ");
 
     return (
-        <div ref={setNodeRef} style={style} className={className}>
+        <div ref={setNodeRef} className={classes}>
             {children}
         </div>
     );

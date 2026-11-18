@@ -7,25 +7,24 @@ interface Props {
 }
 
 const MateriaCard = ({ materia, className }: Props) => {
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: materia.id,
   });
 
-  // Solo estilos dinámicos inline; el resto vive en App.css (.materia-card)
-  const style: React.CSSProperties = {
-    backgroundColor: materia.color,
-    transform: transform
-      ? `translate3d(${transform.x}px, ${transform.y}px, 0)`
-      : undefined,
-  };
+  // El movimiento lo dibuja el DragOverlay de SchedulePage; aquí la tarjeta
+  // original solo se atenúa mientras se arrastra.
+  const classes = ["materia-card", className, isDragging && "is-dragging"]
+    .filter(Boolean)
+    .join(" ");
 
   return (
     <div
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      style={style}
-      className={className ? `materia-card ${className}` : "materia-card"}
+      style={{ backgroundColor: materia.color }}
+      className={classes}
+      title={materia.nombre}
     >
       {materia.nombre}
     </div>
