@@ -13,6 +13,7 @@ import {
 } from "@dnd-kit/core";
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import HorarioGrid from "../components/HorarioGrid";
+import LogoMark from "../components/LogoMark";
 import html2canvas from 'html2canvas';
 
 const SchedulePage = () => {
@@ -190,24 +191,9 @@ const SchedulePage = () => {
             <header className="app-header">
                 <div className="header-content">
                     <div className="brand">
-                        <span className="brand-logo" aria-hidden="true">
-                            {/* Icono de Calendario SVG */}
-                            <svg
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                            >
-                                <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
-                                <line x1="16" y1="2" x2="16" y2="6"></line>
-                                <line x1="8" y1="2" x2="8" y2="6"></line>
-                                <line x1="3" y1="10" x2="21" y2="10"></line>
-                            </svg>
-                        </span>
+                        <LogoMark />
                         <div className="brand-text">
-                            <h1 className="app-title">SchTrack</h1>
+                            <h1 className="app-title">Sch<span>Track</span></h1>
                             <span className="app-subtitle">Organiza tu tiempo de forma visual</span>
                         </div>
                     </div>
@@ -300,10 +286,12 @@ const SchedulePage = () => {
 
             <footer className="app-footer">
                 <div className="footer-content">
-                    <div className="footer-info">
-                        <p>© {new Date().getFullYear()} <strong>SchTrack</strong></p>
-                        <span className="footer-dot" aria-hidden="true">·</span>
-                        <p>Mejora tu horario escolar</p>
+                    <div className="footer-brand">
+                        <LogoMark size={36} />
+                        <div>
+                            <p className="footer-name">Sch<span>Track</span></p>
+                            <p className="footer-tagline">Mejora tu horario escolar</p>
+                        </div>
                     </div>
 
                     <div className="footer-links">
@@ -323,6 +311,9 @@ const SchedulePage = () => {
                             LinkedIn
                         </a>
                     </div>
+                </div>
+                <div className="footer-bottom">
+                    <p>© {new Date().getFullYear()} <strong>SchTrack</strong></p>
                 </div>
             </footer>
 
