@@ -248,8 +248,41 @@ body {
     touch-action: none;
 }
 
+.materia-card {
+    position: relative;
+    user-select: none;
+}
+
 .materia-card.is-dragging {
     opacity: 0.35;
+}
+
+/* Primer clic: tarjeta marcada para eliminar */
+.materia-card.is-selected {
+    box-shadow: inset 0 0 0 2px rgba(255, 255, 255, 0.9), 0 0 0 2px #ef4444;
+    padding-right: 30px;
+    cursor: pointer;
+}
+
+.materia-x {
+    position: absolute;
+    top: 50%;
+    right: 6px;
+    transform: translateY(-50%);
+    display: grid;
+    place-items: center;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background-color: rgba(15, 23, 42, 0.55);
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+.materia-card.is-selected:hover .materia-x {
+    background-color: #ef4444;
 }
 
 .materia-overlay {
@@ -301,6 +334,17 @@ body {
     .materia-en-celda {
         padding: 0 4px;
         font-size: 0.65rem;
+    }
+
+    .materia-en-celda.is-selected {
+        padding-right: 20px;
+    }
+
+    .materia-en-celda .materia-x {
+        right: 3px;
+        width: 15px;
+        height: 15px;
+        font-size: 12px;
     }
 }
 

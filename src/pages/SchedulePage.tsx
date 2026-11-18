@@ -1,11 +1,18 @@
-import { useState, useEffect } from 'react';
-import type { Materia, HorarioState } from '../types/schedule';
+import { useState, useEffect, useRef } from 'react';
+import { flushSync } from 'react-dom';
+import type { Materia, HorarioState, DragData } from '../types/schedule';
 import FormMateria from '../components/FormMateria';
 import PanelMaterias from '../components/PanelMaterias';
-import { DndContext, DragOverlay } from "@dnd-kit/core";
+import {
+    DndContext,
+    DragOverlay,
+    KeyboardSensor,
+    PointerSensor,
+    useSensor,
+    useSensors,
+} from "@dnd-kit/core";
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import HorarioGrid from "../components/HorarioGrid";
-import { useRef } from "react";
 import html2canvas from 'html2canvas';
 
 const SchedulePage = () => {
@@ -15,12 +22,6 @@ const SchedulePage = () => {
         return stored ? JSON.parse(stored) : [];
     });
 
-    // const findMateriaCell = (materiaId: string) => {
-    //     return Object.entries(horario).find(
-    //         ([_, materia]) => materia.id === materiaId
-    //     )?.[0];
-    // };
-
     const [horario, setHorario] = useState<HorarioState>(() => {
         const stored = localStorage.getItem("horario");
         return stored ? JSON.parse(stored) : {};
@@ -28,6 +29,17 @@ const SchedulePage = () => {
     const [nombreMateria, setNombreMateria] = useState("");
 
     const [colorMateria, setColorMateria] = useState("#4f46e5"); // azul default
+
+    const [materiaArrastrada, setMateriaArrastrada] = useState<Materia | null>(null);
+
+    // Tarjeta marcada para eliminar (primer clic). Formato: "panel:<materiaId>" o "celda:<celdaId>"
+    const [seleccion, setSeleccion] = useState<string | null>(null);
+
+    // El arrastre empieza tras moverse 5px, así un clic simple no inicia un drag
+    const sensors = useSensors(
+        useSensor(PointerSensor, { activationConstraint: { distance: 5 } }),
+        useSensor(KeyboardSensor),
+    );
 
 
     useEffect(() => {
@@ -37,6 +49,27 @@ const SchedulePage = () => {
     useEffect(() => {
         localStorage.setItem("horario", JSON.stringify(horario));
     }, [horario]);
+
+    // Clic fuera de la tarjeta seleccionada (o Escape) cancela la selección
+    useEffect(() => {
+        if (!seleccion) return;
+
+        const handlePointerDown = (e: PointerEvent) => {
+            if (!(e.target as Element).closest(".materia-card.is-selected")) {
+                setSeleccion(null);
+            }
+        };
+        const handleKeyDown = (e: KeyboardEvent) => {
+            if (e.key === "Escape") setSeleccion(null);
+        };
+
+        document.addEventListener("pointerdown", handlePointerDown);
+        document.addEventListener("keydown", handleKeyDown);
+        return () => {
+            document.removeEventListener("pointerdown", handlePointerDown);
+            document.removeEventListener("keydown", handleKeyDown);
+        };
+    }, [seleccion]);
 
     const handleAgregarMateria = () => {
         if (nombreMateria.trim() === "") return;
@@ -55,74 +88,86 @@ const SchedulePage = () => {
         setHorario({});
     };
 
+    // Primer clic: muestra la X. Segundo clic sobre la misma tarjeta: la elimina.
+    const handleClickPanel = (materiaId: string) => {
+        const key = `panel:${materiaId}`;
+        if (seleccion === key) {
+            setMaterias((prev) => prev.filter((m) => m.id !== materiaId));
+            setSeleccion(null);
+        } else {
+            setSeleccion(key);
+        }
+    };
 
-    const [materiaArrastrada, setMateriaArrastrada] = useState<Materia | null>(null);
+    const handleClickCelda = (celdaId: string) => {
+        const key = `celda:${celdaId}`;
+        if (seleccion === key) {
+            setHorario((prev) => {
+                const newHorario = { ...prev };
+                delete newHorario[celdaId];
+                return newHorario;
+            });
+            setSeleccion(null);
+        } else {
+            setSeleccion(key);
+        }
+    };
 
     const handleDragStart = (event: DragStartEvent) => {
-        setMateriaArrastrada(materias.find((m) => m.id === event.active.id) ?? null);
+        const data = event.active.data.current as DragData | undefined;
+        setMateriaArrastrada(data?.materia ?? null);
+        setSeleccion(null);
     };
 
     const handleDragEnd = (event: DragEndEvent) => {
         setMateriaArrastrada(null);
         const { active, over } = event;
+        const data = active.data.current as DragData | undefined;
 
-        if (!over) return;
+        if (!over || !data) return;
 
-        const materiaId = active.id as string;
         const targetId = over.id as string;
 
-        const materia = materias.find((m) => m.id === materiaId);
-        if (!materia) return;
-
-        // soltar en el panel
+        // soltar en el panel: si viene del horario, se quita de esa celda
         if (targetId === "panel-materias") {
-            setHorario((prev) => {
-                const newHorario = { ...prev };
-
-                const previousCell = Object.entries(prev).find(
-                    ([, m]) => m.id === materiaId
-                )?.[0];
-
-                if (previousCell) {
-                    delete newHorario[previousCell];
-                }
-
-                return newHorario;
-            });
-
-            return; // IMPORTANTE
+            if (data.origen === "celda") {
+                setHorario((prev) => {
+                    const newHorario = { ...prev };
+                    delete newHorario[data.celdaId];
+                    return newHorario;
+                });
+            }
+            return;
         }
 
-        //  soltar en una celda
+        // soltar en una celda
+        if (data.origen === "celda" && data.celdaId === targetId) return;
+
         setHorario((prev) => {
             const newHorario = { ...prev };
 
-            const previousCell = Object.entries(prev).find(
-                ([, m]) => m.id === materiaId
-            )?.[0];
-
-            if (previousCell) {
-                delete newHorario[previousCell];
+            // desde el horario: se mueve. Desde el panel: se coloca una copia
+            // y la materia sigue disponible en el panel.
+            if (data.origen === "celda") {
+                delete newHorario[data.celdaId];
             }
 
-            newHorario[targetId] = materia;
-
+            newHorario[targetId] = data.materia;
             return newHorario;
         });
     };
 
-    const materiasEnHorario = new Set(
-        Object.values(horario).map((m) => m.id)
-    );
-
     const handleLimpiarPanel = () => {
-        // Solo dejo las materias que ya están en el horario
-        const materiasEnHorarioIds = new Set(Object.values(horario).map(m => m.id));
-        setMaterias(prev => prev.filter(m => materiasEnHorarioIds.has(m.id)));
+        // El horario guarda copias de las materias, así que no se ve afectado
+        setMaterias([]);
+        setSeleccion(null);
     };
 
     const handleExportHorario = async () => {
         if (!horarioRef.current) return;
+
+        // Quita la X de selección antes de capturar la imagen
+        flushSync(() => setSeleccion(null));
 
         const canvas = await html2canvas(horarioRef.current, {
             scale: 2, // para mejor resolución
@@ -201,6 +246,7 @@ const SchedulePage = () => {
 
             <main className="main">
                 <DndContext
+                    sensors={sensors}
                     onDragStart={handleDragStart}
                     onDragEnd={handleDragEnd}
                     onDragCancel={() => setMateriaArrastrada(null)}
@@ -210,9 +256,9 @@ const SchedulePage = () => {
                         <div className="panel-section">
                             <h2>Panel Materias</h2>
                             <PanelMaterias
-                                materias={materias.filter(
-                                    (materia) => !materiasEnHorario.has(materia.id)
-                                )}
+                                materias={materias}
+                                seleccion={seleccion}
+                                onClickMateria={handleClickPanel}
                             />
                         </div>
 
@@ -230,7 +276,11 @@ const SchedulePage = () => {
                     {/* Horario abajo */}
                     <div className="grid-section" ref={horarioRef}>
                         <h2>Horario</h2>
-                        <HorarioGrid horario={horario} />
+                        <HorarioGrid
+                            horario={horario}
+                            seleccion={seleccion}
+                            onClickMateria={handleClickCelda}
+                        />
                     </div>
 
                     <DragOverlay dropAnimation={null}>

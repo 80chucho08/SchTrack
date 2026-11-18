@@ -16,9 +16,11 @@ const horas = Array.from({ length: 15 }, (_, i) => i + 7); // 7 a 21
 
 interface Props {
     horario: HorarioState;
+    seleccion: string | null;
+    onClickMateria: (celdaId: string) => void;
 }
 
-const HorarioGrid = ({ horario }: Props) => {
+const HorarioGrid = ({ horario, seleccion, onClickMateria }: Props) => {
     return (
         <div className="horario-grid">
             {/* Encabezados */}
@@ -37,12 +39,17 @@ const HorarioGrid = ({ horario }: Props) => {
 
                     {dias.map((dia) => {
                         const celdaId = `${dia.id}-${hora}`;
+                        const materia = horario[celdaId];
+                        const dragId = `celda:${celdaId}`;
                         return (
                             <CeldaHorario key={celdaId} id={celdaId} className="horario-cell">
-                                {horario[celdaId] && (
+                                {materia && (
                                     <MateriaCard
-                                        materia={horario[celdaId]}
+                                        dragId={dragId}
+                                        data={{ origen: "celda", materia, celdaId }}
                                         className="materia-en-celda"
+                                        seleccionada={seleccion === dragId}
+                                        onClick={() => onClickMateria(celdaId)}
                                     />
                                 )}
                             </CeldaHorario>

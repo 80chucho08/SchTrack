@@ -25,20 +25,20 @@ Because of `verbatimModuleSyntax`, type-only imports must use `import type { ...
 All state and logic live in `src/pages/SchedulePage.tsx`; components in `src/components/` are presentational plus dnd-kit hooks. `App.tsx` just renders `SchedulePage`.
 
 **State model** (`src/types/schedule.ts`):
-- `materias: Materia[]` — every subject created (`id` from `crypto.randomUUID()`).
-- `horario: HorarioState` — map from cell id to the `Materia` placed there. Cell ids are `` `${DIA}-${hora}` `` (e.g. `LUNES-7`), built in `HorarioGrid.tsx` from `dias[].id` and `horas` (the `largo`/`corto` fields are display-only labels; changing an `id` orphans saved data).
+- `materias: Materia[]` — the panel's subjects, used as reusable templates (`id` from `crypto.randomUUID()`).
+- `horario: HorarioState` — map from cell id to a **copy** of the `Materia` placed there; the same subject can be in many cells, and deleting it from the panel doesn't touch the grid. Cell ids are `` `${DIA}-${hora}` `` (e.g. `LUNES-7`), built in `HorarioGrid.tsx` from `dias[].id` and `horas` (the `largo`/`corto` fields are display-only labels; changing an `id` orphans saved data).
 - Both are lazily initialized from and synced to `localStorage` keys `"materias"` and `"horario"` via `useEffect`. Changing the shape of these types breaks previously stored data.
+- `seleccion` — the card marked for deletion, keyed like its drag id (below). First click on a card selects it (shows the ×), a second click on the same card deletes it (from the panel or from that cell); clicking elsewhere or Escape clears it. Export clears it with `flushSync` so the × isn't captured.
 
 **Drag & drop** (`@dnd-kit/core`): a single `DndContext` in `SchedulePage` wraps the panel and grid.
-- The moving card is drawn by a `DragOverlay` in `SchedulePage` (tracked via `materiaArrastrada`), so it isn't clipped by the grid's `overflow: hidden`; the original `MateriaCard` just fades (`.is-dragging`).
-- Draggables: `MateriaCard`, with draggable id = `materia.id`. Since ids are unique, a subject can occupy **only one cell at a time**; `handleDragEnd` removes it from its previous cell before placing it in the new one.
-- Droppables: each `CeldaHorario` (id = cell id) and `PanelMaterias` (id = `"panel-materias"`). Dropping on the panel removes the subject from the grid.
-- The panel shows `materias` minus those currently in `horario` (derived, not stored separately). "Limpiar panel" deletes subjects that aren't placed; "Limpiar horario" empties `horario` but keeps the subjects.
+- `PointerSensor` uses `activationConstraint: { distance: 5 }` so clicks (for the delete flow) don't start a drag.
+- Draggables: `MateriaCard`, with drag id `panel:<materiaId>` or `celda:<celdaId>` and a `DragData` payload (`origen`, `materia`, `celdaId`) that `handleDragEnd` reads from `active.data.current`. Panel → cell places a copy (panel keeps it); cell → cell moves it; cell → panel removes it from the grid.
+- Droppables: each `CeldaHorario` (id = cell id) and `PanelMaterias` (id = `"panel-materias"`). `PanelMaterias` must always render its droppable container, even when empty.
+- The moving card is drawn by a `DragOverlay` (tracked via `materiaArrastrada`), so it isn't clipped by the grid's `overflow: hidden`; a card dragged from the grid fades (`.is-dragging`), panel cards don't.
+- "Limpiar panel" removes all subjects from the panel; "Limpiar horario" empties `horario`. Neither affects the other.
 
 **Export**: `handleExportHorario` runs `html2canvas` (scale 2) on the `.grid-section` element referenced by `horarioRef` and triggers a `horario.png` download.
 
-**Styling**: global CSS in `src/App.css` (imported in `main.tsx`); the grid layout is CSS Grid on `.horario-grid`. Row height and hour-column width are CSS variables (`--fila`, `--hora-col`) on `.horario-grid`, overridden in the ≤600px media query (where day headers switch to the short labels). `MateriaCard` only sets the subject color inline and `CeldaHorario` toggles `.is-over` — keep static styles in CSS, since inline styles would override the classes.
-
-`PanelMaterias` must always render its droppable container (even when empty) so subjects can be dragged back from the grid.
+**Styling**: global CSS in `src/App.css` (imported in `main.tsx`); the grid layout is CSS Grid on `.horario-grid`. Row height and hour-column width are CSS variables (`--fila`, `--hora-col`) on `.horario-grid`, overridden in the ≤600px media query (where day headers switch to the short labels). `MateriaCard` only sets the subject color inline and toggles `.is-dragging`/`.is-selected`; `CeldaHorario` toggles `.is-over` — keep static styles in CSS, since inline styles would override the classes.
 
 `src/data/materias.ts` is an empty file.
