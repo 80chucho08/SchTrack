@@ -537,6 +537,30 @@ body {
 .header-nav {
     display: flex;
     align-items: center;
+    gap: 10px;
+}
+
+.btn-help {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: 1px solid rgba(165, 180, 252, 0.35);
+    background-color: rgba(255, 255, 255, 0.06);
+    color: var(--star);
+    font-size: 1rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background-color 0.15s, border-color 0.15s;
+}
+
+.btn-help:hover {
+    background-color: rgba(139, 92, 246, 0.2);
+    border-color: var(--brand-violet);
+}
+
+.btn-help:focus-visible {
+    outline: 2px solid var(--brand-cyan);
+    outline-offset: 2px;
 }
 
 .btn-export {
@@ -697,5 +721,185 @@ body {
     .footer-bottom {
         text-align: center;
         padding: 12px 16px 18px;
+    }
+}
+
+
+/* --- Modal de bienvenida --- */
+.welcome-modal {
+    width: min(520px, calc(100% - 32px));
+    max-height: calc(100% - 32px);
+    padding: 0;
+    border: none;
+    border-radius: 16px;
+    background: transparent;
+    overflow: visible;
+}
+
+.welcome-modal::backdrop {
+    background-color: rgba(5, 6, 26, 0.7);
+}
+
+.welcome-modal[open] {
+    animation: welcome-in 0.18s ease-out;
+}
+
+@keyframes welcome-in {
+    from {
+        opacity: 0;
+        transform: translateY(8px);
+    }
+}
+
+.welcome-card {
+    max-height: calc(100vh - 32px);
+    overflow-y: auto;
+    background-color: #fff;
+    border-radius: 16px;
+    box-shadow: 0 20px 50px rgba(5, 6, 26, 0.35);
+}
+
+.welcome-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 22px 24px;
+    background: var(--space-bg);
+    color: var(--star);
+    border-bottom: 1px solid rgba(139, 92, 246, 0.45);
+}
+
+.welcome-header h2 {
+    margin: 0 0 4px;
+    font-size: 1.25rem;
+    font-weight: 800;
+    color: #fff;
+}
+
+.welcome-header h2 span {
+    color: var(--brand-cyan);
+}
+
+.welcome-header p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: var(--star-muted);
+}
+
+.welcome-steps {
+    list-style: none;
+    margin: 0;
+    padding: 20px 24px 8px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+}
+
+.welcome-steps li {
+    display: flex;
+    gap: 12px;
+    align-items: flex-start;
+}
+
+.welcome-step-num {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background-color: #ede9fe;
+    color: #6d28d9;
+    font-size: 0.8rem;
+    font-weight: 700;
+}
+
+.welcome-steps strong {
+    display: block;
+    font-size: 0.92rem;
+    color: var(--ink);
+}
+
+.welcome-steps p {
+    margin: 2px 0 0;
+    font-size: 0.85rem;
+    line-height: 1.4;
+    color: var(--muted);
+}
+
+.welcome-note {
+    margin: 8px 24px 0;
+    padding: 10px 12px;
+    border-radius: 8px;
+    background-color: #f1f5f9;
+    font-size: 0.8rem;
+    color: #475569;
+}
+
+.welcome-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    padding: 18px 24px 22px;
+}
+
+.welcome-check {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.85rem;
+    color: var(--muted);
+    cursor: pointer;
+}
+
+.welcome-check input {
+    width: 16px;
+    height: 16px;
+    accent-color: var(--brand-violet);
+    cursor: pointer;
+}
+
+.welcome-button {
+    padding: 10px 22px;
+    border: none;
+    border-radius: 999px;
+    background-color: var(--brand-violet);
+    color: #fff;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.15s;
+}
+
+.welcome-button:hover {
+    background-color: #7c3aed;
+}
+
+.welcome-button:focus-visible {
+    outline: 2px solid var(--brand-violet);
+    outline-offset: 2px;
+}
+
+@media (max-width: 600px) {
+    .btn-help {
+        width: 32px;
+        height: 32px;
+    }
+
+    .welcome-header {
+        padding: 18px;
+    }
+
+    .welcome-steps {
+        padding: 16px 18px 6px;
+    }
+
+    .welcome-note {
+        margin: 8px 18px 0;
+    }
+
+    .welcome-footer {
+        padding: 16px 18px 18px;
     }
 }

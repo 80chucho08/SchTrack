@@ -14,6 +14,7 @@ import {
 import type { DragEndEvent, DragStartEvent } from "@dnd-kit/core";
 import HorarioGrid from "../components/HorarioGrid";
 import LogoMark from "../components/LogoMark";
+import WelcomeModal from "../components/WelcomeModal";
 import html2canvas from 'html2canvas';
 
 const SchedulePage = () => {
@@ -30,6 +31,12 @@ const SchedulePage = () => {
     const [nombreMateria, setNombreMateria] = useState("");
 
     const [colorMateria, setColorMateria] = useState("#4f46e5"); // azul default
+
+    // Modal de bienvenida: se abre al cargar, salvo que el usuario marcó "No volver a mostrar"
+    const [ocultarBienvenida, setOcultarBienvenida] = useState(
+        () => localStorage.getItem("ocultarBienvenida") === "1"
+    );
+    const [bienvenidaAbierta, setBienvenidaAbierta] = useState(!ocultarBienvenida);
 
     const [materiaArrastrada, setMateriaArrastrada] = useState<Materia | null>(null);
 
@@ -50,6 +57,11 @@ const SchedulePage = () => {
     useEffect(() => {
         localStorage.setItem("horario", JSON.stringify(horario));
     }, [horario]);
+
+    useEffect(() => {
+        if (ocultarBienvenida) localStorage.setItem("ocultarBienvenida", "1");
+        else localStorage.removeItem("ocultarBienvenida");
+    }, [ocultarBienvenida]);
 
     // Clic fuera de la tarjeta seleccionada (o Escape) cancela la selección
     useEffect(() => {
@@ -198,6 +210,15 @@ const SchedulePage = () => {
                         </div>
                     </div>
                     <nav className="header-nav">
+                        <button
+                            type="button"
+                            onClick={() => setBienvenidaAbierta(true)}
+                            className="btn-help"
+                            aria-label="Cómo funciona"
+                            title="Cómo funciona"
+                        >
+                            ?
+                        </button>
                         <button onClick={handleExportHorario} className="btn-export">
                             <svg
                                 viewBox="0 0 24 24"
@@ -283,6 +304,13 @@ const SchedulePage = () => {
             </main>
 
 
+
+            <WelcomeModal
+                abierto={bienvenidaAbierta}
+                onCerrar={() => setBienvenidaAbierta(false)}
+                noMostrar={ocultarBienvenida}
+                onNoMostrarChange={setOcultarBienvenida}
+            />
 
             <footer className="app-footer">
                 <div className="footer-content">
