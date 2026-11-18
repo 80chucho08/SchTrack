@@ -137,11 +137,10 @@ const SchedulePage = () => {
         <div>
             <header className="app-header">
                 <div className="header-content">
-                    <div className="header-left">
-                        <div className="logo-container">
+                    <div className="brand">
+                        <span className="brand-logo" aria-hidden="true">
                             {/* Icono de Calendario SVG */}
                             <svg
-                                className="header-logo-svg"
                                 viewBox="0 0 24 24"
                                 fill="none"
                                 stroke="currentColor"
@@ -154,12 +153,27 @@ const SchedulePage = () => {
                                 <line x1="8" y1="2" x2="8" y2="6"></line>
                                 <line x1="3" y1="10" x2="21" y2="10"></line>
                             </svg>
+                        </span>
+                        <div className="brand-text">
                             <h1 className="app-title">SchTrack</h1>
+                            <span className="app-subtitle">Organiza tu tiempo de forma visual</span>
                         </div>
-                        <span className="app-subtitle">Organiza tu tiempo de forma visual</span>
                     </div>
                     <nav className="header-nav">
-                        <button onClick={handleExportHorario} className="btn-download-mini">
+                        <button onClick={handleExportHorario} className="btn-export">
+                            <svg
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="2"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                aria-hidden="true"
+                            >
+                                <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+                                <polyline points="7 10 12 15 17 10" />
+                                <line x1="12" y1="15" x2="12" y2="3" />
+                            </svg>
                             Exportar PNG
                         </button>
                     </nav>
@@ -216,6 +230,7 @@ const SchedulePage = () => {
                 <div className="footer-content">
                     <div className="footer-info">
                         <p>© {new Date().getFullYear()} <strong>SchTrack</strong></p>
+                        <span className="footer-dot" aria-hidden="true">·</span>
                         <p>Mejora tu horario escolar</p>
                     </div>
 
