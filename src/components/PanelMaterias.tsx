@@ -7,19 +7,21 @@ interface Props {
 }
 
 const PanelMaterias = ({ materias }: Props) => {
+    // El droppable se registra siempre, aunque el panel esté vacío,
+    // para poder regresar materias desde el horario.
     const { setNodeRef } = useDroppable({
         id: "panel-materias",
     });
 
-    if (materias.length === 0) {
-        return <p>No hay materias aún</p>;
-    }
-
     return (
         <div ref={setNodeRef} className="panel-materias">
-            {materias.map((materia) => (
-                <MateriaCard key={materia.id} materia={materia} />
-            ))}
+            {materias.length === 0 ? (
+                <p className="panel-vacio">No hay materias aún</p>
+            ) : (
+                materias.map((materia) => (
+                    <MateriaCard key={materia.id} materia={materia} />
+                ))
+            )}
         </div>
     );
 };

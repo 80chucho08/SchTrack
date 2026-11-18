@@ -6,22 +6,18 @@ interface Props {
     className?: string
 }
 
-const CeldaHorario = ({ id, children }: Props) => {
+const CeldaHorario = ({ id, children, className }: Props) => {
     const { setNodeRef, isOver } = useDroppable({
         id,
     });
 
-    const style: React.CSSProperties = {
-        minWidth: "120px",
-        height: "60px",
-        backgroundColor: isOver ? "#e0f2fe" : "transparent",
-        border: "1px solid #ccc",
-        textAlign: "center",
-        verticalAlign: "middle",
-    };
+    // Resalta la celda mientras se arrastra una materia encima
+    const style: React.CSSProperties | undefined = isOver
+        ? { backgroundColor: "#e0f2fe" }
+        : undefined;
 
     return (
-        <div ref={setNodeRef} style={style} className="classname">
+        <div ref={setNodeRef} style={style} className={className}>
             {children}
         </div>
     );
